@@ -1,6 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UsersDetailsComponent } from './users-details.component';
+import {ActivatedRoute, Router} from '@angular/router';
+import {empty, Observable} from 'rxjs';
+
+class RouterStub {
+ navigate(params) {
+ }
+}
+
+class ActivatedRouteStub {
+  params: Observable<any> = empty();
+}
 
 describe('UsersDetailsComponent', () => {
   let component: UsersDetailsComponent;
@@ -8,7 +19,11 @@ describe('UsersDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UsersDetailsComponent ]
+      declarations: [ UsersDetailsComponent ],
+      providers: [
+        {provide: Router, useClass: RouterStub},
+        {provide: ActivatedRoute, useClass: ActivatedRouteStub}
+      ]
     })
     .compileComponents();
   }));
@@ -19,7 +34,12 @@ describe('UsersDetailsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should redirect to the users page after saving', () => {
+    const router = TestBed.get(Router);
+    let spy = spyOn(router, 'navigate');
+
+    component.save();
+
+    expect(spy).toHaveBeenCalledWith(['users']);
   });
 });
