@@ -35,7 +35,7 @@ describe('VoterComponent', () => {
     expect(de.classes['highlighted']).toBeTruthy();
   });
 
-  it('should increase tottal votes when i press upvote button', () => {
+  it('should increase total votes when i press upvote button', () => {
     const button = fixture.debugElement.query(By.css('.glyphicon-menu-up'));
     button.triggerEventHandler('click', null);
 
